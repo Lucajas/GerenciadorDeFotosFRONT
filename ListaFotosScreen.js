@@ -1,10 +1,8 @@
-// ListaFotosScreen.js
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Image, Button, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation, useIsFocused } from '@react-navigation/native'; // Importar useIsFocused
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 
-// ⚠️ IMPORTANTE: Lembre-se de usar o IP da sua API!
-const API_URL = 'http://192.168.1.66:5000'; // Substitua pelo SEU IP
+const API_URL = 'http://192.168.1.66:5000';
 
 export default function ListaFotosScreen() {
     const [fotos, setFotos] = useState([]);
@@ -24,25 +22,23 @@ export default function ListaFotosScreen() {
             
             const data = await response.json();
             setFotos(data);
-            setFotoSelecionada(null); // Limpa a seleção após uma nova busca
+            setFotoSelecionada(null); //Limpa a seleção após uma nova busca
         } catch (error) {
             console.error(error);
             Alert.alert("Erro", "Não foi possível buscar as fotos.");
         }
     };
 
-    // useEffect para buscar fotos quando a tela carregar OU quando voltar a ter foco
+    //useEffect para buscar fotos quando a tela carregar ou quando voltar a ter foco
     useEffect(() => {
         if (isFocused) {
-            buscarFotos(); // Busca fotos sempre que a tela for exibida
+            buscarFotos(); //Busca fotos sempre que a tela for exibida
         }
-    }, [isFocused]); // A dependência agora é 'isFocused'
+    }, [isFocused]);
 
-    // --- LÓGICA DE NAVEGAÇÃO E SELEÇÃO ---
-
-    // Função para atualizar a lista (será usada como callback)
+    //Função para atualizar a lista (será usada como callback)
     const onVoltarEAtualizar = () => {
-        buscarFotos(); // A sua função que chama a API
+        buscarFotos(); //função que chama a API
         setFotoSelecionada(null); // Limpa a seleção
     };
 
@@ -55,7 +51,6 @@ export default function ListaFotosScreen() {
         });
     };
 
-    // --- LÓGICA DE EXCLUSÃO ---
     const excluirFoto = async () => {
         if (!fotoSelecionada) return;
 
@@ -74,7 +69,7 @@ export default function ListaFotosScreen() {
                         if (!response.ok) throw new Error(json.mensagem || 'Erro ao excluir');
 
                         Alert.alert('Sucesso', 'Foto excluída!');
-                        onVoltarEAtualizar(); // Atualiza a lista
+                        onVoltarEAtualizar(); //Atualiza a lista
                         
                     } catch (error) {
                         Alert.alert('Erro', error.message);
@@ -84,15 +79,12 @@ export default function ListaFotosScreen() {
         );
     };
 
-
-    // --- RENDERIZAÇÃO ---
-
-    // Define qual foto está selecionada ao ser tocada na lista
+    //Define qual foto está selecionada ao ser tocada na lista
     const aoSelecionarFoto = (foto) => {
         setFotoSelecionada(foto);
     };
 
-    // Como cada item da lista (FlatList) deve parecer
+    //como cada item da lista (FlatList) deve parecer
     const renderItemLista = ({ item }) => (
         <TouchableOpacity 
             style={styles.itemLista} 
@@ -103,7 +95,7 @@ export default function ListaFotosScreen() {
         </TouchableOpacity>
     );
 
-    // Constrói a URL completa para a imagem
+    //Constrói a URL completa para a imagem
     const getUrlImagem = (caminho) => {
         // Extrai o nome do arquivo do caminho (ex: "FOTOS/minhafoto.jpg" -> "minhafoto.jpg")
         const nomeArquivo = caminho.split(/[\\/]/).pop();
@@ -112,19 +104,17 @@ export default function ListaFotosScreen() {
 
     return (
         <View style={styles.container}>
-            {/* --- SEÇÃO DE BUSCA --- */}
             <View style={styles.buscaContainer}>
                 <TextInput
                     style={styles.buscaInput}
                     placeholder="Buscar por categoria ou tag..."
                     value={termoBusca}
                     onChangeText={setTermoBusca}
-                    onSubmitEditing={buscarFotos} // Busca ao pressionar 'Enter'
+                    onSubmitEditing={buscarFotos}
                 />
                 <Button title="Buscar" onPress={buscarFotos} />
             </View>
 
-            {/* --- LISTA DE RESULTADOS --- */}
             <FlatList
                 style={styles.flatList}
                 data={fotos}
@@ -133,15 +123,14 @@ export default function ListaFotosScreen() {
                 ListEmptyComponent={<Text style={styles.listaVazia}>Nenhuma foto encontrada.</Text>}
             />
 
-            {/* --- SEÇÃO DE DETALHES (PRÉVIA DA IMAGEM) --- */}
             <View style={styles.detalhesContainer}>
                 {fotoSelecionada ? (
-                    // Se uma foto ESTÁ selecionada
+                    //se uma foto ESTÁ selecionada
                     <View style={styles.previewContent}>
                         <Image
                             source={{ uri: getUrlImagem(fotoSelecionada.caminho_arquivo) }}
                             style={styles.imagemPreview}
-                            resizeMode="contain" // Garante que a imagem caiba
+                            resizeMode="contain" //Garante que a imagem caiba
                         />
                         <View style={styles.botoesContainer}>
                             <Button title="Editar Metadados" onPress={irParaEditar} />
@@ -149,7 +138,7 @@ export default function ListaFotosScreen() {
                         </View>
                     </View>
                 ) : (
-                    // Se nenhuma foto está selecionada
+                    //Se nenhuma foto está selecionada
                     <Text style={styles.placeholderPreview}>
                         Selecione uma foto da lista para ver a prévia e editar.
                     </Text>
@@ -159,7 +148,6 @@ export default function ListaFotosScreen() {
     );
 }
 
-// --- ESTILOS ---
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -179,7 +167,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     flatList: {
-        flex: 1, // Faz a lista ocupar o espaço disponível
+        flex: 1,
         borderWidth: 1,
         borderColor: '#ddd',
         borderRadius: 5,
@@ -204,7 +192,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'gray',
     },
-    // --- Estilos da Prévia ---
     detalhesContainer: {
         height: 300, // Altura fixa para a área de preview
         marginTop: 10,
@@ -225,7 +212,7 @@ const styles = StyleSheet.create({
     },
     imagemPreview: {
         width: '90%',
-        height: 200, // Altura para a imagem
+        height: 200,
         marginBottom: 10,
     },
     botoesContainer: {
@@ -233,4 +220,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         width: '100%',
     }
+
 });
