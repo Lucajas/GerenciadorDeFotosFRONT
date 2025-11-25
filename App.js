@@ -1,0 +1,45 @@
+// App.js
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+// 1. Importe TODAS as três telas
+import HomeScreen from './HomeScreen'; // <-- Importa a nova Home
+import ListaFotosScreen from './ListaFotosScreen'; 
+import FotoScreen from './AddFotoScreen'; 
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator 
+        // 2. Defina a 'Home' como a rota inicial
+        initialRouteName="Home" 
+      >
+        
+        {/* 3. Declare a nova tela 'Home' */}
+        <Stack.Screen 
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }} // Esconde o cabeçalho nela
+        />
+
+        {/* 4. Declare as outras telas */}
+        <Stack.Screen 
+          name="ListaFotos"
+          component={ListaFotosScreen}
+          options={{ title: 'Gerenciar Fotos' }} // Título melhorado
+        />
+        <Stack.Screen 
+          name="FotoScreen"
+          component={FotoScreen}
+          options={({ route }) => ({ 
+            title: route.params.foto ? 'Editar Foto' : 'Adicionar Nova Foto' 
+          })}
+        />
+
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
