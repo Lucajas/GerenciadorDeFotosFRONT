@@ -1,43 +1,38 @@
-// HomeScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Use a hook de navegação
 export default function HomeScreen() {
     const navigation = useNavigation();
 
     // Função para navegar para a tela de Adicionar
-    // Passamos 'null' como foto e um 'onGoBack' vazio
+    // Passamos 'null' como valor da foto e um 'onGoBack' vazio
     const irParaAdicionar = () => {
         navigation.navigate('AddFotoScreen', { 
             foto: null, 
         });
     };
 
-    // Função para navegar para a tela de Gerenciamento (a lista)
+    //Função para navegar para a tela de Gerenciamento
     const irParaGerenciar = () => {
         navigation.navigate('ListaFotos');
     };
 
     return (
-        // Usamos ImageBackground para o efeito de fundo
+        // Background 
         <ImageBackground 
-            source={require('./assets/background.jpg')} // Coloque uma URL ou asset aqui
+            source={require('./assets/background.jpg')}
             style={styles.background}
-            imageStyle={{ opacity: 0.3 }} // Deixa o fundo mais sutil
+            imageStyle={{ opacity: 0.3 }} //Deixa o fundo mais sutil
             blurRadius={2}
         >
-            {/* Véu escuro de opacidade */}
-            <View style={styles.overlay} />
+            <View style={styles.overlay} /> 
             <View style={styles.container}>
-                {/* Ícone da Câmera */}
                 <Image
-                    source={require('./assets/icon.png')} // Assumindo que você tem um ícone em ./assets
+                    source={require('./assets/icon.png')}
                     style={styles.logo}
                 />
                 <Text style={styles.titulo}>Bem-Vindo(a)</Text>
-                {/* Bloco Branco dos Botões */}
                 <View style={styles.menuBox}>
                     <TouchableOpacity style={styles.botao} onPress={irParaAdicionar}>
                         <Text style={styles.textoBotao}>Adicionar fotos</Text>
@@ -51,7 +46,6 @@ export default function HomeScreen() {
     );
 }
 
-// Estilos para recriar o design da imagem
 const styles = StyleSheet.create({
     background: {
         flex: 1,
@@ -59,7 +53,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0,0,0,0.4)', // Véu escuro
+        backgroundColor: 'rgba(0,0,0,0.4)', // "Véu" escuro
         zIndex: 1,
     },
     container: {
@@ -77,7 +71,7 @@ const styles = StyleSheet.create({
     },
     titulo: {
         fontSize: 32,
-        fontWeight: '200', // Um peso mais leve
+        fontWeight: '200',
         color: '#FFFFFF',
         textShadowColor: 'rgba(0, 0, 0, 0.75)',
         textShadowOffset: { width: 1, height: 1 },
@@ -106,7 +100,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         width: '100%',
         marginBottom: 20,
-        marginTop: 20, // Espaço entre os botões
+        marginTop: 20,
         borderColor: '#24222bff',
         borderWidth: 1,
         elevation: 5,
@@ -117,4 +111,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: '500',
     }
+
 });
