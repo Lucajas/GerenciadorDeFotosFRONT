@@ -1,4 +1,3 @@
-// FotoScreen.js
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, Platform, TouchableOpacity, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -233,3 +232,4 @@ const styles = StyleSheet.create({
     },
 
 });
+
