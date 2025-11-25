@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-// 1. Importa as três telas
+//Importa as três telas
 import HomeScreen from './HomeScreen';
 import ListaFotosScreen from './ListaFotosScreen'; 
 import FotoScreen from './AddFotoScreen'; 
