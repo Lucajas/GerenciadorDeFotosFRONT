@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert, Platform, TouchableOpacity, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
-// ⚠️ IMPORTANTE: Lembre-se de usar o IP da sua API!
-const API_URL = 'http://192.168.1.66:5000'; // Substitua pelo IP da sua máquina
+
+const API_URL = 'http://192.168.1.66:5000';
 
 export default function FotoScreen({ route, navigation }) {
     const { foto, onGoBack } = route.params;
@@ -12,7 +12,7 @@ export default function FotoScreen({ route, navigation }) {
     const [categoria, setCategoria] = useState('');
     const [tags, setTags] = useState('');
     const [imagemUri, setImagemUri] = useState(null);
-    // Remover scrollViewRef e onFocus customizado para simplificar
+  
     useEffect(() => {
         if (foto) {
             const dataFormatada = new Date(foto.data).toLocaleDateString('pt-BR');
@@ -22,9 +22,8 @@ export default function FotoScreen({ route, navigation }) {
         }
     }, [foto]);
 
-    // 4. Lógica para selecionar imagem (só no modo 'Adicionar')
+    //Lógica para selecionar imagem só no modo Adicionar
     const selecionarImagem = async () => {
-        // Pedir permissão
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert('Permissão necessária', 'Precisamos da permissão para acessar sua galeria.');
@@ -43,13 +42,13 @@ export default function FotoScreen({ route, navigation }) {
         }
     };
 
-    // 5. Lógica para salvar (Adicionar ou Editar)
+    //Lógica para salvar
     const salvarFoto = () => {
         if (foto) {
-            // Lógica de Edição (PUT)
+            // (PUT)
             _atualizarFoto();
         } else {
-            // Lógica de Adição (POST)
+            //  (POST)
             _adicionarFoto();
         }
     };
@@ -125,7 +124,6 @@ export default function FotoScreen({ route, navigation }) {
                 contentContainerStyle={{ flexGrow: 1, padding: 24, backgroundColor: '#f7fafd' }}
                 keyboardShouldPersistTaps="always"
             >
-                {/* O botão de selecionar imagem só aparece se for 'Adicionar' */}
                 {!foto && (
                     <TouchableOpacity style={styles.imagemPicker} onPress={selecionarImagem} activeOpacity={0.7}>
                         {imagemUri ? (
@@ -187,7 +185,6 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         backgroundColor: '#eaf1fb',
     },
-    // iconeAddImagem removido
     textoImagemPicker: {
         color: '#7a8fa6',
         fontSize: 16,
@@ -234,4 +231,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 1,
     },
+
 });
